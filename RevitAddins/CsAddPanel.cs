@@ -23,10 +23,10 @@ namespace XPRevitAddins
             String tabName = "XP Tools";
             application.CreateRibbonTab(tabName);
 
-            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"NewRibbonPanel");
+            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"Auto Numbering");
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             PushButtonData buttonData = new PushButtonData("cmdHelloWorld",
-               "Hello World", thisAssemblyPath, "XPRevitAddins.HelloWorld");
+               "Hello World", thisAssemblyPath, "XPRevitAddins.NumberingByClick");
             PushButton pushButton = ribbonPanel.AddItem(buttonData) as PushButton;
             pushButton.ToolTip = "Say hello to the entire world.";
 
@@ -38,16 +38,16 @@ namespace XPRevitAddins
         }
     }
 
-    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class HelloWorld : IExternalCommand
-    {
-        // The main Execute method (inherited from IExternalCommand) must be public
-        public Autodesk.Revit.UI.Result Execute(ExternalCommandData revit,
-            ref string message, ElementSet elements)
-        {
-            TaskDialog.Show("Revit", "Hello World");
-            return Autodesk.Revit.UI.Result.Succeeded;
-        }
-    }
+    //[Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    //public class HelloWorld : IExternalCommand
+    //{
+    //    // The main Execute method (inherited from IExternalCommand) must be public
+    //    public Autodesk.Revit.UI.Result Execute(ExternalCommandData revit,
+    //        ref string message, ElementSet elements)
+    //    {
+    //        TaskDialog.Show("Revit", "Hello World");
+    //        return Autodesk.Revit.UI.Result.Succeeded;
+    //    }
+    //}
 
 }
