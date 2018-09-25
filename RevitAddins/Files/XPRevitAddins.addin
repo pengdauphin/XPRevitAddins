@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>XP Addin Applications</Name>
+    <Assembly>
+      XPRevitAddins.dll
+    </Assembly>
+    <ClientId>321D53B6-1D4E-4262-BE84-EFAB74991E94</ClientId>
+    <FullClassName>XPRevitAddins.CsAddPanel</FullClassName>
+    <Text>XP Addin Applications</Text>
+    <VendorId>XP</VendorId>
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+  </AddIn>
+</RevitAddIns>
