@@ -51,11 +51,19 @@ namespace XPRevitAddins
 
         private void selectElement_Click(object sender, RoutedEventArgs e)
         {
+            List<string> parameterNames = new List<string>() { "dsf", "rerte"};
             Reference reference = uiDoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
             Element element = doc.GetElement(reference);
             string elemType = element.GetType().Name;
-            
+            ParameterSet parameterSet = element.Parameters;
+            foreach(Parameter para in parameterSet)
+            {
+                parameterNames.Add(para.AsString());
+            }
+
+            string[] str = new string[] { "Foo", "Bar" };
             lable_SelectedEle.Content = elemType;
+            cbox_Parameter.ItemsSource = str;
 
         }
     }
