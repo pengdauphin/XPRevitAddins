@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -36,6 +37,9 @@ namespace XPRevitAddins
             uiDoc = uiApp.ActiveUIDocument;
             app = uiApp.Application;
             doc = uiDoc.Document;
+            text_initial.Text = "0";
+            text_Prefix.Text = "";
+            text_Suffix.Text = "";
             //DataContext = new MainWindowViewModel();
             //DataContext = new ViewModel();
 
@@ -46,8 +50,12 @@ namespace XPRevitAddins
         UIDocument uiDoc;
         Autodesk.Revit.ApplicationServices.Application app;
         Document doc;
-    
-
+        List<ElementValuePair> elementValuePairs = null;
+        Parameter TargetParameter;
+        ElementId TargetParameterID;
+        ParameterSet parameterSet;
+       // ICollectionView ElementValueMap;
+        IList<ElementValuePair> ElementValueMap;
 
 
         private void lable_SelectedEle_TextInput(object sender, TextCompositionEventArgs e)
@@ -60,26 +68,18 @@ namespace XPRevitAddins
             
             Reference reference = uiDoc.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element);
 
-            //IList<Reference> references = uiDoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element);
-
-            //foreach(Reference reference in references)
-            //{
-            //    MessageBox.Show(doc.GetElement(reference).Name);
-            //}
+            
 
             Element element = doc.GetElement(reference);
             if (element.IsValidObject)
             {
                 string elemType = element.Category.Name;
                 //string[] str = new string[] { "dsf", "rerte" };
-                ParameterSet parameterSet = element.Parameters;
+                parameterSet = element.Parameters;
                 foreach (Parameter para in parameterSet)
                 {
-
-                    if (para.UserModifiable == true)
-                    {
-                        cbox_Parameter.Items.Add(para.Definition.Name.ToString());
-                    }
+                    cbox_Parameter.Items.Add(para.Definition.Name.ToString());
+                    
 
                 }
                 cbox_Parameter.SelectedIndex = 0;
@@ -102,22 +102,33 @@ namespace XPRevitAddins
 
         private void button_Select_Click(object sender, RoutedEventArgs e)
         {
-            IList<Reference> references = uiDoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element);
-            int numb = 0;
             
-            foreach(Reference reference in references)
+            IList<Reference> references = uiDoc.Selection.PickObjects(Autodesk.Revit.UI.Selection.ObjectType.Element);
+
+            int numb = Convert.ToInt32(text_initial.Text);
+            
+
+            foreach (Reference reference in references)
             {
+                
                 Element element = doc.GetElement(reference);
                 var name = element.Name;
                 numb = numb + 1;
-                selectedElements.Items.Add(new {NAME = name, parameterValue = numb.ToString() });
-                //ElementValuePairs item = new ElementValuePairs(name, numb.ToString());
-
-                //list.Add(item);
+                //MessageBox.Show(numb.ToString());
+                string _paraValue = text_Prefix.Text +" "+ numb +" "+ text_Suffix.Text;
+                selectedElements.Items.Add(new {NAME = name, parameterValue = _paraValue });
+                ElementValuePair valuePair = new ElementValuePair(reference.ElementId, _paraValue);
+                ElementValueMap.Add(valuePair);
             }
 
             
 
+        }
+
+        private void text_initial_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
 
         //class ElementValuePairs
@@ -132,86 +143,128 @@ namespace XPRevitAddins
         //    }
         //}
 
-        //public class MainWindowViewModel
-        //{
-        //    public ICollectionView ElementValuePair { get; private set; }
-          
+        public class ElementParameterMaps
+        {
+            public ICollectionView ElementValuePair { get; private set; }
 
 
-        //    public MainWindowViewModel()
-        //    {
-        //        var _ElementValuePair = new List<ElementValuePair>
-        //                         {
-        //                             new ElementValuePair
-        //                                 {
-        //                                     Element_ID = "Christian",
-        //                                     ParameterValue = "Moser",
-                                             
-        //                                 },
-        //                             new ElementValuePair
-        //                                 {
-        //                                     Element_ID = "Peter",
-        //                                     ParameterValue = "Meyer",
-                                            
-        //                                 },
-        //                             new ElementValuePair
-        //                                 {
-        //                                     Element_ID = "Lisa",
-        //                                     ParameterValue = "Simpson",
-                                             
-        //                                 },
-        //                             new ElementValuePair
-        //                                 {
-        //                                     Element_ID = "Betty",
-        //                                     ParameterValue = "Bossy",
-                                             
-        //                                 },
-        //                             new ElementValuePair
-        //                                 {
-        //                                     Element_ID = "Xiaoxuan",
-        //                                     ParameterValue = "Peng",
 
-        //                                 }
-        //                         };
+            public ElementParameterMaps()
+            {
+                var _ElementValuePair = new List<ElementValuePair>
+                                 {
+                                     //new ElementValuePair
+                                     //    {
+                                     //        Element_ID = "Christian",
+                                     //        ParameterValue = "Moser",
 
-        //        ElementValuePair = CollectionViewSource.GetDefaultView(_ElementValuePair);
+                                     //    },
+                                     //new ElementValuePair
+                                     //    {
+                                     //        Element_ID = "Peter",
+                                     //        ParameterValue = "Meyer",
 
-                
+                                     //    },
+                                     //new ElementValuePair
+                                     //    {
+                                     //        Element_ID = "Lisa",
+                                     //        ParameterValue = "Simpson",
 
+                                     //    },
+                                     //new ElementValuePair
+                                     //    {
+                                     //        Element_ID = "Betty",
+                                     //        ParameterValue = "Bossy",
 
-        //    }
-        //}
+                                     //    },
+                                     //new ElementValuePair
+                                     //    {
+                                     //        Element_ID = "Xiaoxuan",
+                                     //        ParameterValue = "Peng",
 
-       
-        //public class ElementValuePair 
-        //{
-        //    private string _element_ID;
-        //    private string _parameterValue;
-           
+                                     //    }
+                                 };
 
-        //    public string Element_ID
-        //    {
-        //        get { return _element_ID; }
-        //        set
-        //        {
-        //            _element_ID = value;
-                   
-        //        }
-        //    }
-
-        //    public string ParameterValue
-        //    {
-        //        get { return _parameterValue; }
-        //        set
-        //        {
-        //            _parameterValue = value;
-                   
-        //        }
-        //    }
+                ElementValuePair = CollectionViewSource.GetDefaultView(_ElementValuePair);
 
 
-        //}
 
 
+            }
+        }
+
+
+        public class ElementValuePair
+        {
+            private ElementId _element_ID;
+            private string _parameterValue;
+
+
+            public ElementId Element_ID
+            {
+                get { return _element_ID; }
+                set
+                {
+                    _element_ID = value;
+
+                }
+            }
+
+            public string ParameterValue
+            {
+                get { return _parameterValue; }
+                set
+                {
+                    _parameterValue = value;
+
+                }
+            }
+
+            public ElementValuePair(ElementId elementId, string paramaterValue)
+            {
+                _element_ID = elementId;
+                _parameterValue = paramaterValue;
+            }
+        }
+
+        private void button_Process_Click(object sender, RoutedEventArgs e)
+        {
+            using (Transaction transaction = new Transaction(doc, "Set Parameter"))
+            {
+                transaction.Start();
+                try
+                {
+                    foreach (ElementValuePair i in elementValuePairs)
+                    {
+                        Element element = doc.GetElement(i.Element_ID);
+                        TargetParameter.Set(i.ParameterValue);
+
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                transaction.Commit();
+
+            }
+        }
+
+        private void cbox_Parameter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selPara = cbox_Parameter.SelectedItem.ToString();
+            foreach (Parameter para in parameterSet)
+            {
+                if (para.Definition.Name == selPara)
+                {
+                    TargetParameter = para;
+                    TargetParameterID = para.Element.Id;
+                }
+
+            }
+            
+        }
     }
 }
