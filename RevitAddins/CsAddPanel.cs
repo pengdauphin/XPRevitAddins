@@ -23,12 +23,23 @@ namespace XPRevitAddins
             String tabName = "XP Tools";
             application.CreateRibbonTab(tabName);
 
-            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"Auto Numbering");
+            
+            //compose first ribbon panel
+            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"Handy Tools");
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
-            PushButtonData buttonData = new PushButtonData("cmdHelloWorld",
-               "Hello World", thisAssemblyPath, "XPRevitAddins.NumberingByClick");
+            //Button #1
+            PushButtonData buttonData = new PushButtonData("cmd_Numbering", "Numbering", thisAssemblyPath, "XPRevitAddins.NumberingByClick");
             PushButton pushButton = ribbonPanel.AddItem(buttonData) as PushButton;
-            pushButton.ToolTip = "Say hello to the entire world.";
+            pushButton.ToolTip = "Perform numbering of a parameter.";
+            //Button #2
+            PushButtonData buttonData_CreateSheets = new PushButtonData("cmd_createSheets", "Create Sheets", thisAssemblyPath, "XPRevitAddins.CreateSheets");
+            PushButton pushButton_CreateSheets = ribbonPanel.AddItem(buttonData_CreateSheets) as PushButton;
+            pushButton_CreateSheets.ToolTip = "Create Sheets from website.";
+            //Button #3
+            PushButtonData buttonData_PrintSet = new PushButtonData("cmd_PrintSet", "Print Set", thisAssemblyPath, "XPRevitAddins.CreateSheets");
+            PushButton pushButton_PrintSet = ribbonPanel.AddItem(buttonData_PrintSet) as PushButton;
+            pushButton_PrintSet.ToolTip = "Print Sheets/Views Set";
+
 
             //PushButtonData button1 = new PushButtonData("Button1", "My Button #1", @"C:\ExternalCommands.dll", "Revit.Test.Command1");
             //PushButtonData button2 = new PushButtonData("Button2", "My Button #2",
