@@ -36,7 +36,7 @@ namespace XPRevitAddins
             uiDoc = uiApp.ActiveUIDocument;
             app = uiApp.Application;
             doc = uiDoc.Document;
-            DataContext = new MainWindowViewModel();
+            //DataContext = new MainWindowViewModel();
             //DataContext = new ViewModel();
 
         }
@@ -110,6 +110,7 @@ namespace XPRevitAddins
                 Element element = doc.GetElement(reference);
                 var name = element.Name;
                 numb = numb + 1;
+                selectedElements.Items.Add(new {NAME = name, parameterValue = numb.ToString() });
                 //ElementValuePairs item = new ElementValuePairs(name, numb.ToString());
 
                 //list.Add(item);
@@ -131,85 +132,85 @@ namespace XPRevitAddins
         //    }
         //}
 
-        public class MainWindowViewModel
-        {
-            public ICollectionView ElementValuePair { get; private set; }
+        //public class MainWindowViewModel
+        //{
+        //    public ICollectionView ElementValuePair { get; private set; }
           
 
 
-            public MainWindowViewModel()
-            {
-                var _ElementValuePair = new List<ElementValuePair>
-                                 {
-                                     new ElementValuePair
-                                         {
-                                             Element_ID = "Christian",
-                                             ParameterValue = "Moser",
+        //    public MainWindowViewModel()
+        //    {
+        //        var _ElementValuePair = new List<ElementValuePair>
+        //                         {
+        //                             new ElementValuePair
+        //                                 {
+        //                                     Element_ID = "Christian",
+        //                                     ParameterValue = "Moser",
                                              
-                                         },
-                                     new ElementValuePair
-                                         {
-                                             Element_ID = "Peter",
-                                             ParameterValue = "Meyer",
+        //                                 },
+        //                             new ElementValuePair
+        //                                 {
+        //                                     Element_ID = "Peter",
+        //                                     ParameterValue = "Meyer",
                                             
-                                         },
-                                     new ElementValuePair
-                                         {
-                                             Element_ID = "Lisa",
-                                             ParameterValue = "Simpson",
+        //                                 },
+        //                             new ElementValuePair
+        //                                 {
+        //                                     Element_ID = "Lisa",
+        //                                     ParameterValue = "Simpson",
                                              
-                                         },
-                                     new ElementValuePair
-                                         {
-                                             Element_ID = "Betty",
-                                             ParameterValue = "Bossy",
+        //                                 },
+        //                             new ElementValuePair
+        //                                 {
+        //                                     Element_ID = "Betty",
+        //                                     ParameterValue = "Bossy",
                                              
-                                         },
-                                     new ElementValuePair
-                                         {
-                                             Element_ID = "Xiaoxuan",
-                                             ParameterValue = "Peng",
+        //                                 },
+        //                             new ElementValuePair
+        //                                 {
+        //                                     Element_ID = "Xiaoxuan",
+        //                                     ParameterValue = "Peng",
 
-                                         }
-                                 };
+        //                                 }
+        //                         };
 
-                ElementValuePair = CollectionViewSource.GetDefaultView(_ElementValuePair);
+        //        ElementValuePair = CollectionViewSource.GetDefaultView(_ElementValuePair);
 
                 
 
 
-            }
-        }
+        //    }
+        //}
 
        
-        public class ElementValuePair 
-        {
-            private string _element_ID;
-            private string _parameterValue;
+        //public class ElementValuePair 
+        //{
+        //    private string _element_ID;
+        //    private string _parameterValue;
            
 
-            public string Element_ID
-            {
-                get { return _element_ID; }
-                set
-                {
-                    _element_ID = value;
+        //    public string Element_ID
+        //    {
+        //        get { return _element_ID; }
+        //        set
+        //        {
+        //            _element_ID = value;
                    
-                }
-            }
+        //        }
+        //    }
 
-            public string ParameterValue
-            {
-                get { return _parameterValue; }
-                set
-                {
-                    _parameterValue = value;
+        //    public string ParameterValue
+        //    {
+        //        get { return _parameterValue; }
+        //        set
+        //        {
+        //            _parameterValue = value;
                    
-                }
-            }
+        //        }
+        //    }
 
 
-        }
+        //}
 
 
     }
