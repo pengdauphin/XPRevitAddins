@@ -25,7 +25,7 @@ namespace XPRevitAddins
 
             
             //compose first ribbon panel
-            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"Handy Tools");
+            RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName,"Functions");
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             //Button #1
             PushButtonData buttonData = new PushButtonData("cmd_Numbering", "Numbering", thisAssemblyPath, "XPRevitAddins.NumberingByClick");
@@ -45,20 +45,18 @@ namespace XPRevitAddins
             //PushButtonData button2 = new PushButtonData("Button2", "My Button #2",
             //    @"C:\ExternalCommands.dll", "Revit.Test.Command2");
 
+
+            RibbonPanel ribbonPanel2 = application.CreateRibbonPanel(tabName, "IO");
+            //Button #2-1
+            PushButtonData buttonData_2_1 = new PushButtonData("exportGLTF", "GLTFExportor", thisAssemblyPath, "XPRevitAddins.Revit2GLTF");
+            PushButton pushButton_ELTFExporter = ribbonPanel2.AddItem(buttonData_2_1) as PushButton;
+            pushButton_ELTFExporter.ToolTip = "Export 3D view to GLTF format";
+
             return Result.Succeeded;
         }
+
+        
     }
 
-    //[Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    //public class HelloWorld : IExternalCommand
-    //{
-    //    // The main Execute method (inherited from IExternalCommand) must be public
-    //    public Autodesk.Revit.UI.Result Execute(ExternalCommandData revit,
-    //        ref string message, ElementSet elements)
-    //    {
-    //        TaskDialog.Show("Revit", "Hello World");
-    //        return Autodesk.Revit.UI.Result.Succeeded;
-    //    }
-    //}
-
+  
 }

@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\AppData\Roaming\Autodesk\Revit\Addins\2019\</OutputPath>
+    <OutputPath>..\Build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,18 +35,22 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,6 +63,10 @@
   <ItemGroup>
     <Compile Include="CreateSheets.cs" />
     <Compile Include="CsAddPanel.cs" />
+    <Compile Include="GeometryUtils.cs" />
+    <Compile Include="GLTFExporterOld.cs" />
+    <Compile Include="GLTFExporter\Buffer.cs" />
+    <Compile Include="GLTFExporter\GLTFObject.cs" />
     <Compile Include="NumberingByClick.cs" />
     <Compile Include="PrintSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +75,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Revit2GLTF.cs" />
+    <Compile Include="RevitUtils.cs" />
     <Compile Include="WPFs\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -81,6 +91,7 @@
     <None Include="Files\XPRevitAddins.addin">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="WPFs\MainWindow.xaml">
@@ -91,7 +102,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetDir)*.dll" "C:\Users\$(Username)\AppData\Roaming\Autodesk\Revit\Addins\2019\AECOM\*.dll"
+
+Copy "$(ProjectDir)Files\XPRevitAddins.addin" "C:\Users\$(Username)\AppData\Roaming\Autodesk\Revit\Addins\2019\AECOM.Addin"</PostBuildEvent>
   </PropertyGroup>
 </Project>
