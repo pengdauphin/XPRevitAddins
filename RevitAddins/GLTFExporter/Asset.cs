@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace XPRevitAddins.GLTFExporter
 {
-    class Buffer
+    class Asset
     {
-        public int byteLength { get; set; }
-        public string url { get; set; }
-        public string name { get; set; }
+        public string copyright { get; set; }
+        public string generator { get; set; }
+        public string version { get; set; }
+        public string minVersion { get; set; }
         public Extension extensions { get; set; }
         //public any extras { get; set; }
 
-
-        public Buffer(int ByteLength)
+        public Asset (string Version)
         {
-            byteLength = ByteLength;
-            
+            version = Version;
         }
     }
 }

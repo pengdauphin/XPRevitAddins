@@ -26,7 +26,7 @@ namespace XPRevitAddins
             obj.asset.Add("generator", "Revit to glTF generator");
             obj.asset.Add("version", "1.0");
 
-            var glbBlob = new Blob();
+            
             var jso = JsonConvert.SerializeObject(obj);
             //File.WriteAllText(@"C:\Users\xpeng\Desktop\4D Model\revit2glTF.json", jso);
 
