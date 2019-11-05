@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace XPRevitAddins.GLTFExporter
 {
@@ -24,18 +25,18 @@ namespace XPRevitAddins.GLTFExporter
 
         public Mesh[] meshes { get; set; }
 
-        public Node[] nodes { get; set; }
+        public List<Node> nodes { get; set; }
 
         public Sampler[] samplers { get; set; }
 
         public int scene { get; set; }
 
-        public Scene[] scenes { get; set; }
+        public List<Scene> scenes { get; set; }
         public Skin[] skins { get; set; }
 
         public Texture[] textures { get; set; }
 
-        public Extension Extensions { get; set; }
+        public Extension extensions { get; set; }
 
         //public typ extras { get; set; } this property is not required, and coulb be any type of data
 
@@ -43,7 +44,16 @@ namespace XPRevitAddins.GLTFExporter
 
         public GLTF(Asset Asset)
         {
+            //require property for GLTF init
             asset = Asset;
+            scene = 0;
+            
+            
         }
+
+
+        
     }
+
+
 }

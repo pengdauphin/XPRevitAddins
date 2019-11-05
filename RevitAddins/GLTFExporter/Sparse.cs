@@ -14,6 +14,8 @@ namespace XPRevitAddins.GLTFExporter
         public Indices indices { get; set; }
         public Extension extensions { get; set; }
         //public any extraa { get; set; } this property is not required, and the type could be any
+
+
         public Sparse(int Count, Indices Indices, Values Values)
         {
             count = Count;

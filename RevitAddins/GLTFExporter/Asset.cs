@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace XPRevitAddins.GLTFExporter
 {
+
     class Asset
     {
         public string copyright { get; set; }
@@ -18,6 +19,14 @@ namespace XPRevitAddins.GLTFExporter
         public Asset (string Version)
         {
             version = Version;
+        }
+
+        private string Toregexp(string _String)
+        {
+            //string pattern = '^([0-9]+)\\.([0-9]+)$';
+
+
+            return "";
         }
     }
 }

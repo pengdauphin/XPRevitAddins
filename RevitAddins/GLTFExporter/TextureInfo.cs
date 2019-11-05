@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace XPRevitAddins.GLTFExporter
 {
-    class Scene
+    class TextureInfo
     {
-        public List<int> nodes { get; set; }
-        public string name { get; set; }
+        public int index { get; set; }
+        public int texCoord { get; set; }
+
         public Extension extensions { get; set; }
         //public typ extras { get; set; } this property is not required, and coulb be any type of data
 
-        
+        public TextureInfo(int Index)
+        {
+
+        }
     }
 }

@@ -95,6 +95,7 @@
     <Compile Include="GLTFExporter\Sparse.cs" />
     <Compile Include="GLTFExporter\Target.cs" />
     <Compile Include="GLTFExporter\Texture.cs" />
+    <Compile Include="GLTFExporter\TextureInfo.cs" />
     <Compile Include="GLTFExporter\Values.cs" />
     <Compile Include="NumberingByClick.cs" />
     <Compile Include="PrintSet.cs" />
