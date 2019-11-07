@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,10 @@ namespace XPRevitAddins
             Document doc = uidoc.Document;
             string docName = doc.Title;
 
-            //MessageBox.Show(docName);
+          
 
             //get categories from documents
-           List<Category> catList = RevitUtils.GetAllCategories(doc);
+            List<Category> catList = RevitUtils.GetAllCategories(doc);
             foreach (Category cat  in catList)
             {
                 string name = cat.Name;

@@ -17,13 +17,13 @@ namespace XPRevitAddins.GLTFExporter
         public Buffer[] buffers { get; set; }
         public BufferView[] bufferViews { get; set; }
 
-        public Camera[] cameras { get; set; }
+        public List<Camera> cameras { get; set; }
 
         public Image[] images { get; set; }
 
         public Material[] materials { get; set; }
 
-        public Mesh[] meshes { get; set; }
+        public List<Mesh> meshes { get; set; }
 
         public List<Node> nodes { get; set; }
 
@@ -32,7 +32,7 @@ namespace XPRevitAddins.GLTFExporter
         public int scene { get; set; }
 
         public List<Scene> scenes { get; set; }
-        public Skin[] skins { get; set; }
+        public List<Skin> skins { get; set; }
 
         public Texture[] textures { get; set; }
 

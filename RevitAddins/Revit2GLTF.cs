@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,28 +21,60 @@ namespace XPRevitAddins
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            //init an asset
-            Asset asset = new Asset("2.0");//only require property to init a GLTF
-            
-            //init a scene 
-            Scene scene = new Scene();
-            scene.nodes = new List<int>();
-            scene.nodes.Add(0);
+            //getting current document from command data
+            UIApplication uiapp = commandData.Application;
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            Document doc = uidoc.Document;
+            string docName = doc.Title;
 
-            //init nodes
-            Node node = new Node();
-            node.name = "BoomBox";
-            
+            //filter elements visible in view 
+            if (doc.ActiveView is View3D)
+            {
+                ElementCategoryFilter titleBlockFilter = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks);
+                ElementCategoryFilter levelFilter = new ElementCategoryFilter(BuiltInCategory.OST_Levels, true);
+                ElementCategoryFilter genericAnnoFilter = new ElementCategoryFilter(BuiltInCategory.OST_GenericAnnotation);
+                ElementCategoryFilter detailFilter = new ElementCategoryFilter(BuiltInCategory.OST_DetailComponents);
 
-            GLTF obj = new GLTF(asset);
-            //adding scene to scene list
-            obj.scenes = new List<Scene>();
-            obj.scenes.Add(scene);
-            obj.nodes = new List<Node>();
-            obj.nodes.Add(node);
-            
+                FilteredElementCollector allElementsInView = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                                                                .WhereElementIsNotElementType()
+                                                                .WherePasses(levelFilter);
+                                                                
+                                                                
+                IList elementsInView = (IList)allElementsInView.ToElements();
+                foreach (Element e in allElementsInView)
+                {
+                    if (e.Category != null)
+                    {
+                        string category = e.Category.Name;
 
+                        if (category != "Title Blocks" && category != "Generic Annotations" && category != "Detail Items")
+                        {
+                            MessageBox.Show(category);
+                            Reference reference = new Reference(e);
+                            var pri = e.GetGeometryObjectFromReference(reference);
+                            
+
+                        }
+                    }
+                   
+                    
+
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Select a 3D view to export GLTF");
+            }
             
+            //Convert Revit Elements
+
+            //Create one GLTF object 
+            GLTF obj = GLTFUtilts.Convert2GLTF();
+
+
+
+
             var jso = JsonConvert.SerializeObject(obj);
             //File.WriteAllText(@"C:\Users\xpeng\Desktop\4D Model\revit2glTF.json", jso);
 

@@ -8,12 +8,16 @@ namespace XPRevitAddins.GLTFExporter
 {
     class Node
     {
-        //public int camera { get; set; }
+
+        /// <summary>
+        /// Might need to conver this class to dynamic object
+        /// </summary>
+        //public int camera { get; set; } = 0; //will fix later to get camera from view
         public List<int> children { get; set; }
 
-        //public int skin { get; set; }
+        //public int skin { get; set; } = 0; // not appicable to Revit elements. Skip for this code
         public List<float> matrix { get; set; }
-        //public int mesh { get; set; }
+        public int mesh { get; set; } = 0;
         public List<float> rotation { get; set; }
 
         public List<float> scale { get; set; }

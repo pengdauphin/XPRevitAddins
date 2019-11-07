@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XPRevitAddins.GLTFExporter
+namespace XPRevitAddins.GLTFExporter.Enum
 {
-    class Attribute
+    enum CameraType
     {
-
+        perspective,
+        orthographic
     }
 }
