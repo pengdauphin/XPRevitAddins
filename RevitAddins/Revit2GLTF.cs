@@ -30,36 +30,41 @@ namespace XPRevitAddins
             //filter elements visible in view 
             if (doc.ActiveView is View3D)
             {
-                ElementCategoryFilter titleBlockFilter = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks);
-                ElementCategoryFilter levelFilter = new ElementCategoryFilter(BuiltInCategory.OST_Levels, true);
-                ElementCategoryFilter genericAnnoFilter = new ElementCategoryFilter(BuiltInCategory.OST_GenericAnnotation);
-                ElementCategoryFilter detailFilter = new ElementCategoryFilter(BuiltInCategory.OST_DetailComponents);
+                RevitToGLTF.RevitToGLTFContext context = new RevitToGLTF.RevitToGLTFContext(doc, @"C:\Users\xpeng\Desktop\4D Model\revit2glTF.gltf");
+                CustomExporter glTFExporter = new CustomExporter(doc, context);
 
-                FilteredElementCollector allElementsInView = new FilteredElementCollector(doc, doc.ActiveView.Id)
-                                                                .WhereElementIsNotElementType()
-                                                                .WherePasses(levelFilter);
+                glTFExporter.ShouldStopOnError = false;
+                glTFExporter.Export(doc.ActiveView as View3D);
+                //ElementCategoryFilter titleBlockFilter = new ElementCategoryFilter(BuiltInCategory.OST_TitleBlocks);
+                //ElementCategoryFilter levelFilter = new ElementCategoryFilter(BuiltInCategory.OST_Levels, true);
+                //ElementCategoryFilter genericAnnoFilter = new ElementCategoryFilter(BuiltInCategory.OST_GenericAnnotation);
+                //ElementCategoryFilter detailFilter = new ElementCategoryFilter(BuiltInCategory.OST_DetailComponents);
+
+                //FilteredElementCollector allElementsInView = new FilteredElementCollector(doc, doc.ActiveView.Id)
+                //                                                .WhereElementIsNotElementType()
+                //                                                .WherePasses(levelFilter);
                                                                 
                                                                 
-                IList elementsInView = (IList)allElementsInView.ToElements();
-                foreach (Element e in allElementsInView)
-                {
-                    if (e.Category != null)
-                    {
-                        string category = e.Category.Name;
+                //IList elementsInView = (IList)allElementsInView.ToElements();
+                //foreach (Element e in allElementsInView)
+                //{
+                //    if (e.Category != null)
+                //    {
+                //        string category = e.Category.Name;
 
-                        if (category != "Title Blocks" && category != "Generic Annotations" && category != "Detail Items")
-                        {
-                            MessageBox.Show(category);
-                            Reference reference = new Reference(e);
-                            var pri = e.GetGeometryObjectFromReference(reference);
+                //        if (category != "Title Blocks" && category != "Generic Annotations" && category != "Detail Items")
+                //        {
+                //            MessageBox.Show(category);
+                //            Reference reference = new Reference(e);
+                //            var pri = e.GetGeometryObjectFromReference(reference);
                             
 
-                        }
-                    }
+                //        }
+                //    }
                    
                     
 
-                }
+                //}
                 
             }
             else

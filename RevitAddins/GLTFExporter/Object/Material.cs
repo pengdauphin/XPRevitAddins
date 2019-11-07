@@ -8,6 +8,9 @@ namespace XPRevitAddins.GLTFExporter
 {
     class Material
     {
+        /// <summary>
+        /// This material is based on Physically Based Rendering techniques
+        /// </summary>
         public string name { get; set; }
         public Extension extensions { get; set; }
         //public typ extras { get; set; } this property is not required, and coulb be any type of data

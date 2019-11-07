@@ -66,7 +66,7 @@ namespace XPRevitAddins.RevitToGLTF
 
                 public int GetHashCode(XYZ p)
                 {
-                    return Util.PointString(p).GetHashCode();
+                    return 12; // Util.PointString(p).GetHashCode(); need to fix this one later
                 }
             }
             #endregion // XyzEqualityComparer
@@ -233,6 +233,7 @@ namespace XPRevitAddins.RevitToGLTF
         Dictionary<string, GLTFExporter.Texture> _textures;
         Dictionary<string, GLTFExporter.Image> _images;
         Dictionary<string, GLTFExporter.Sampler> _samplers;
+        GLTFExporter.Camera _camera;
 
         //Accessible object of current element
         GLTFExporter.Node _currentElement;
@@ -281,9 +282,34 @@ namespace XPRevitAddins.RevitToGLTF
         }
         #endregion
 
+        #region set current material
+        void SetCurrentMaterial(string uidMaterial)
+        {
+            if (!_materials.ContainsKey(uidMaterial))
+            {
+                Autodesk.Revit.DB.Material material = doc.GetElement(uidMaterial) as Autodesk.Revit.DB.Material; //Revit material
+                GLTFExporter.Material gMaterial = new GLTFExporter.Material();//GLTF material
+
+                //convert Revit material to GLTF material
+                gMaterial.name = material.Name;
+                //TODO: more property need to be obtain and convert to GLTF material
+
+                _materials.Add(uidMaterial, gMaterial);
+
+            }
+
+            _currentMaterialUid = uidMaterial;
+
+            string uid_per_material = _currentElement.name + "-" + uidMaterial; //
+
+            
+        }
+        #endregion
+
         public RevitToGLTFContext(Document document, string filename)
         {
-
+            doc = document;
+            fileName = filename;
         }
         void IExportContext.Finish()
         {
@@ -292,7 +318,7 @@ namespace XPRevitAddins.RevitToGLTF
 
         bool IExportContext.IsCanceled()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         RenderNodeAction IExportContext.OnElementBegin(ElementId elementId)
@@ -357,7 +383,14 @@ namespace XPRevitAddins.RevitToGLTF
 
         RenderNodeAction IExportContext.OnViewBegin(ViewNode node)
         {
-            throw new NotImplementedException();
+            // If we did not do so before we invoked the custom export
+            // we can get information about the view from the supplied view node,
+            // That includes : rendering settings, sun settings, camera data, etc.
+
+            CameraInfo camera = node.GetCameraInfo();
+            var angle = camera.IsPerspective;
+
+            return RenderNodeAction.Proceed;
         }
 
         void IExportContext.OnViewEnd(ElementId elementId)
@@ -367,7 +400,16 @@ namespace XPRevitAddins.RevitToGLTF
 
         bool IExportContext.Start()
         {
-            throw new NotImplementedException();
+            _materials = new Dictionary<string, GLTFExporter.Material>();
+            _geometries = new Dictionary<string, GLTFExporter.Mesh>();
+            _objects = new Dictionary<string, Node>();
+            _transformationStack.Push(Transform.Identity); //need to understand what's this transform. 
+            Asset asset = new Asset("0.0"); 
+            GLTFObj = new GLTF(asset); //
+            GLTFObj.meshes = new List<GLTFExporter.Mesh>();
+
+
+            return true;
         }
     }
 }
